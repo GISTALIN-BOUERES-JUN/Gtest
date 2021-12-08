@@ -1,43 +1,44 @@
 import { Box, Flex, Heading, Button, Icon, Table, Thead, Th, Td, Tr, Checkbox, Tbody, Text } from "@chakra-ui/react";
 import { RiAddLine, RiDeleteBackLine, RiDeleteBinLine } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
 import { useQuery } from 'react-query'
 import { Spinner } from "@chakra-ui/react";
 import { userInfo } from "os";
 import { api } from "../services/api";
+import { EmailsContext } from "../emailscontext";
 
 
 
 
 export default function SentList() {
 
+    const list = useContext(EmailsContext)
+
     /*
     const { data, isLoading, error } = useQuery('emails', async () => {
         await api.get('emails')
     })
 
-    console.log(data); */
-    const dataEmail = {
-        user:"geraldo",
-        email:"geraldoboueres@gmail.com",
-        created_at: new Date(),
-        content: "absrc",
-        subject: "bigger bigger",
+    console.log(data); 
+
+    const email =  {
+        user:"Geraldo",
+        email:"geraldo@oi.com",
+        content: "lindao",
+        subject: "lindao assunto",
         type: "sent",
+    
+    }
+
+    async function CreateEmail(){
+        const dataEmail = email
+    
+       await api.post('emails', dataEmail);
+    } */
+
         
-        };
-
-    api.post('emails', dataEmail);
-    
-    const [list, setList] = useState([]);
-
-    useEffect (() => {
-         api.get('emails')
-        .then(response => setList(response.data.emails))
-    }, []);
-    
 
 
     return (

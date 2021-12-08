@@ -13,7 +13,8 @@ type: string
 }
 
 export function makeServer(){
-    const server = createServer ({
+    let server = createServer ({
+        
         models: {
             email: Model.extend<Partial<Email>>({})
         },
@@ -46,8 +47,8 @@ export function makeServer(){
                 
             })
 
-        }, */
-
+        }, 
+*/
         seeds(server){
             server.db.loadData({
                 emails: [
@@ -58,7 +59,7 @@ created_at: new Date(),
 content: "Oi oi oi",
 subject: "abcd",
 type: "sent",
-                    },
+                    }, 
                     
                 ],
             })
@@ -75,11 +76,16 @@ type: "sent",
 
 
             this.post('/emails', (schema, request) =>{
+                let data = JSON.parse(request.requestBody)
+                return schema.db.emails.insert(data)
+            })
+
+            this.put('/emails', (schema, request) =>{
                 const data = JSON.parse(request.requestBody)
                 return schema.create('email', data)
             })
 
-            this.passthrough()
+           // this.passthrough()
 
         }
     })

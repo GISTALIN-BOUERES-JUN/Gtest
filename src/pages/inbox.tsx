@@ -7,10 +7,26 @@ import { useQuery } from 'react-query'
 import { Spinner } from "@chakra-ui/react";
 import { userInfo } from "os";
 import { api } from "../services/api";
+import { useContext } from "react";
+import { EmailsContext } from "../emailscontext";
+import Modal from 'react-modal';
 
 
 
 export default function InboxList() {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    function handleOpenModal () {
+        setIsModalOpen(true);
+        console.log("teste")
+
+    }
+
+    function handleCloseModal () {
+        setIsModalOpen(false)
+
+    }
 
     /*
     const { data, isLoading, error } = useQuery('emails', async () => {
@@ -20,25 +36,22 @@ export default function InboxList() {
     console.log(data); */
     
     
-    const [list, setList] = useState([]);
-
-    
-    useEffect (() => {
-         api.get('emails')
-        .then(response => setList(response.data.emails))
-    }, []);
+    const list = useContext(EmailsContext)
     
 
 
     return (
         <Box>
             <Header />
+            <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
+                <Text textColor="pink.200" fontSize="3xl">Insert Email</Text>
+            </Modal>
             <Flex width="100%" my="6" maxWidth={1480} mx="auto" px="6">
                 <Sidebar />
                 <Box flex="1" borderRadius={8} bg="gray.800" p="8">
                     <Flex mb="8" justify="space-between" align="center">
                         <Heading size="lg" fontWeight="normal">E-mails</Heading>
-                        <Button as="a" size="sm" fontSize="sm" colorScheme="pink" leftIcon={<Icon as={RiAddLine} />}> Create New </Button>
+                        <Button onClick={handleOpenModal} size="sm" fontSize="sm" colorScheme="pink" leftIcon={<Icon as={RiAddLine}  />}> Create New </Button>
                     </Flex>
 
                     <Table colorScheme="WhiteAlpha">
